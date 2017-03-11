@@ -43,7 +43,10 @@ void BasicGameListView::populateList(const std::vector<FileData*>& files)
 
 	for(auto it = files.begin(); it != files.end(); it++)
 	{
-		mList.add((*it)->getName(), *it, ((*it)->getType() == FOLDER));
+		if ((*it)->metadata.get("hidden") != "0")
+			LOG(LogInfo) << (*it)->getPath() << " is hidden. Skipping displaying it.";
+		else		
+			mList.add((*it)->getName(), *it, ((*it)->getType() == FOLDER));
 	}
 }
 

@@ -40,7 +40,10 @@ void GridGameListView::populateList(const std::vector<FileData*>& files)
 	mGrid.clear();
 	for(auto it = files.begin(); it != files.end(); it++)
 	{
-		mGrid.add((*it)->getName(), (*it)->getThumbnailPath(), *it);
+		if ((*it)->metadata.get("hidden") != "0")
+			LOG(LogInfo) << (*it)->getPath() << " is hidden. Skipping displaying it.";
+		else
+			mGrid.add((*it)->getName(), (*it)->getThumbnailPath(), *it);
 	}
 }
 

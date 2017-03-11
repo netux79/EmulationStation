@@ -19,16 +19,18 @@ MetaDataDecl gameDecls[] = {
 	{"publisher",	MD_STRING,				"unknown",			false,		"publisher",			"enter game publisher"},
 	{"genre",		MD_STRING,				"unknown",			false,		"genre",				"enter game genre"},
 	{"players",		MD_INT,					"1",				false,		"players",				"enter number of players"},
+	{"hidden",		MD_INT,					"0",				false,		"hidden",				"enter hidden game"},
 	{"playcount",	MD_INT,					"0",				true,		"play count",			"enter number of times played"},
-	{"lastplayed",	MD_TIME,				"0", 				true,		"last played",			"enter last played date"}
+	{"lastplayed",	MD_TIME,				"0", 				true,		"last played",			"enter last played date"},
 };
 const std::vector<MetaDataDecl> gameMDD(gameDecls, gameDecls + sizeof(gameDecls) / sizeof(gameDecls[0]));
 
 MetaDataDecl folderDecls[] = { 
-	{"name",		MD_STRING,				"", 	false}, 
-	{"desc",		MD_MULTILINE_STRING,	"", 	false},
-	{"image",		MD_PATH,				"", 	false},
-	{"thumbnail",	MD_PATH,				"", 	false},
+	{"name",		MD_STRING,				"", 	false,		"name",					"enter game name"}, 
+	{"desc",		MD_MULTILINE_STRING,	"", 	false,		"description",			"enter description"},
+	{"image",		MD_PATH,				"", 	false,		"image",				"enter path to image"},
+	{"thumbnail",	MD_PATH,				"", 	false,		"thumbnail",			"enter path to thumbnail"},
+	{"hidden",		MD_INT,					"0",	false,		"hidden",				"enter hidden game"},
 };
 const std::vector<MetaDataDecl> folderMDD(folderDecls, folderDecls + sizeof(folderDecls) / sizeof(folderDecls[0]));
 
