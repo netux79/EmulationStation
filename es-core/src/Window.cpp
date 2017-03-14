@@ -244,9 +244,9 @@ void Window::renderLoadingScreen()
 	Renderer::drawRect(0, 0, Renderer::getScreenWidth(), Renderer::getScreenHeight(), 0xFFFFFFFF);
 
 	ImageComponent splash(this, true);
-	splash.setResize(Renderer::getScreenWidth() * 0.6f, 0.0f);
+	splash.setResize(Renderer::getScreenWidth() * 0.8f, 0.0f);
 	splash.setImage(":/splash.svg");
-	splash.setPosition((Renderer::getScreenWidth() - splash.getSize().x()) / 2, (Renderer::getScreenHeight() - splash.getSize().y()) / 2 * 0.6f);
+	splash.setPosition((Renderer::getScreenWidth() - splash.getSize().x()) / 2, (Renderer::getScreenHeight() - splash.getSize().y()) / 2);
 	splash.render(trans);
 
 	auto& font = mDefaultFonts.at(1);
