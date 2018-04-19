@@ -158,11 +158,21 @@ void ViewController::playViewTransition()
 		}else{
 			advanceAnimation(0, (int)(mFadeOpacity * FADE_DURATION));
 		}
-	}else if (transition_style == "slide" || transition_style == "instant"){
+	}else if (transition_style == "slide")
+   {
 		// slide
 		setAnimation(new MoveCameraAnimation(mCamera, target));
 		updateHelpPrompts(); // update help prompts immediately
 	}
+   else if (transition_style == "instant")
+   {
+      setAnimation(new LambdaAnimation(
+			[this, target](float /*t*/)
+		{
+			this->mCamera.translation() = -target;
+		}, 1));
+		updateHelpPrompts();
+   }
 }
 
 void ViewController::onFileChanged(FileData* file, FileChangeType change)
@@ -207,7 +217,9 @@ void ViewController::launch(FileData* game, Eigen::Vector3f center)
 			setAnimation(new LambdaAnimation(fadeFunc, 800), 0, nullptr, true);
 			this->onFileChanged(game, FILE_METADATA_CHANGED);
 		});
-	}else if (transition_style == "slide" || transition_style == "instant"){
+	}
+   else if (transition_style == "slide")
+   {
 		// move camera to zoom in on center + fade out, launch game, come back in
 		setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 1500), 0, [this, origCamera, center, game] 
 		{
@@ -218,6 +230,16 @@ void ViewController::launch(FileData* game, Eigen::Vector3f center)
 			this->onFileChanged(game, FILE_METADATA_CHANGED);
 		});
 	}
+   else if (transition_style == "instant")
+   {
+      setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 10), 0, [this, origCamera, center, game]
+		{
+			game->getSystem()->launchGame(mWindow, game);
+			mCamera = origCamera;
+			setAnimation(new LaunchAnimation(mCamera, mFadeOpacity, center, 10), 0, [this] { mLockInput = false; }, true);
+			this->onFileChanged(game, FILE_METADATA_CHANGED);
+		});      
+   }
 }
 
 std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* system)
